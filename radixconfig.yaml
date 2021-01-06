@@ -1,0 +1,36 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: gomysqldemo
+spec:
+  environments:
+    - name: prod
+      build:
+        from: release
+    - name: qa
+      build:
+        from: main
+  components:
+    - name: "server"
+      src: "."
+      dockerfileName: "Dockerfile"
+      ports:
+        - name: http
+          port: 3003
+      resources:
+        requests:
+          memory: "50Mi"
+          cpu: "20m"
+        limits:
+          memory: "50Mi"
+          cpu: "1000m"
+      public: true
+      secrets:
+        - DB_CONN
+      environmentConfig:
+        - environment: qa
+          replicas: 1
+          monitoring: false
+        - environment: prod
+          replicas: 1
+          monitoring: false
