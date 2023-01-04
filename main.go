@@ -11,6 +11,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	log "github.com/sirupsen/logrus"
 	"github.com/vrischmann/envconfig"
+
+	// "k8s.io/client-go/kubernetes"
+	_ "k8s.io/client-go/plugin/pkg/client/auth"
 )
 
 // Env from environment variables or arguments
@@ -34,7 +37,10 @@ func main() {
 	var env Env
 
 	log.Info("starting")
+	//var cl kubernetes.Interface
+	//b := cl.BatchV1beta1().CronJobs("")
 
+	//fmt.Println(b)
 	err := envconfig.Init(&env)
 	if err != nil {
 		log.Panic(err)
